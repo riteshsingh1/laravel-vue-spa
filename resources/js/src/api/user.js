@@ -1,8 +1,15 @@
 import request from '@/utils/request'
 
+export function sanctum(){
+    return request({
+        url: '/sanctum/csrf-cookie',
+        method: 'get'
+    })
+}
+
 export function login(data) {
   return request({
-    url: '/api/user/login',
+    url: '/login',
     method: 'post',
     data
   })
@@ -10,15 +17,14 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/api/user',
     method: 'get',
-    params: { token }
   })
 }
 
 export function logout() {
   return request({
-    url: '/vue-admin-template/user/logout',
+    url: '/logout',
     method: 'post'
   })
 }

@@ -391,7 +391,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-jsx@^7.2.0", "@babel/plugin-syntax-jsx@^7.8.3":
+"@babel/plugin-syntax-jsx@^7.10.4", "@babel/plugin-syntax-jsx@^7.2.0", "@babel/plugin-syntax-jsx@^7.8.3":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.10.4.tgz#39abaae3cbf710c4373d8429484e6ba21340166c"
   integrity sha512-KCg9mio9jwiARCB7WAcQ7Y1q+qicILjoK8LP/VkPkEKaf5dkaZZK1EcTe91a3JJlZ3qy6L5s9X52boEYi8DM9g==
@@ -11048,6 +11048,11 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-avatar@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/vue-avatar/-/vue-avatar-2.3.0.tgz#6cd434575a803e5c4c52ef24b1382b14a24c6336"
+  integrity sha512-/zeMhHV0OWp4ESvcX3OIVXUCT1IwCS/18StQh6Q2hqUJwhN3knWG8ktKzJt45rVp9whMXDGg8qDNZKzz3LfRmw==
 
 vue-eslint-parser@^7.0.0:
   version "7.1.0"

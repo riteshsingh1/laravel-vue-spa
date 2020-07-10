@@ -1,6 +1,8 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo,sanctum } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import { MessageBox, Message } from 'element-ui'
+
 
 const getDefaultState = () => {
   return {
@@ -32,14 +34,22 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-          console.log('here');
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+      sanctum().then(resposeData => {
+          login({ email: username.trim(), password: password }).then(response => {
+              // const { data } = response
+              commit('SET_TOKEN', 1)
+              setToken('1')
+              resolve()
+          }).catch(error => {
+              Message({
+                  message: "Incorrect email or password",
+                  type: 'error',
+                  duration: 5 * 1000
+              })
+              reject(error)
+          })
       }).catch(error => {
-        reject(error)
+          reject(error)
       })
     })
   },
@@ -49,15 +59,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
-
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-        const { name, avatar } = data
+        //avtar to be later
+        const { name } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', 'nonw')
         resolve(data)
       }).catch(error => {
         reject(error)

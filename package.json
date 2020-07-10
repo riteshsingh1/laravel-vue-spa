@@ -10,13 +10,15 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/plugin-syntax-jsx": "^7.10.4",
+        "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+        "@vue/babel-plugin-transform-vue-jsx": "^1.1.2",
         "@vue/cli-plugin-babel": "4.4.4",
         "@vue/cli-plugin-eslint": "4.4.4",
         "@vue/cli-plugin-unit-jest": "4.4.4",
         "@vue/cli-service": "4.4.4",
         "@vue/test-utils": "1.0.0-beta.29",
         "autoprefixer": "9.5.1",
-        "axios": "^0.19",
         "babel-eslint": "10.1.0",
         "babel-jest": "23.6.0",
         "babel-plugin-dynamic-import-node": "^2.3.3",
@@ -40,7 +42,7 @@
         "vue-template-compiler": "2.6.10"
     },
     "dependencies": {
-        "axios": "0.18.1",
+        "axios": "^0.19",
         "core-js": "3.6.5",
         "element-ui": "2.13.2",
         "js-cookie": "2.2.0",
@@ -48,6 +50,7 @@
         "nprogress": "0.2.0",
         "path-to-regexp": "2.4.0",
         "vue": "2.6.10",
+        "vue-avatar": "^2.3.0",
         "vue-router": "3.0.6",
         "vuex": "3.1.0"
     }
