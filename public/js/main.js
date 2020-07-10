@@ -76135,7 +76135,7 @@ function resetRouter() {
 /***/ (function(module, exports) {
 
 module.exports = {
-  title: 'Vue Admin Template',
+  title: 'Laravel Vue SPA',
 
   /**
    * @type {boolean} true | false
@@ -76556,7 +76556,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/settings */ "./resources/js/src/settings.js");
 /* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_settings__WEBPACK_IMPORTED_MODULE_0__);
 
-var title = _settings__WEBPACK_IMPORTED_MODULE_0___default.a.title || 'Vue Admin Template';
+var title = _settings__WEBPACK_IMPORTED_MODULE_0___default.a.title || 'Sanctum';
 function getPageTitle(pageTitle) {
   if (pageTitle) {
     return "".concat(pageTitle, " - ").concat(title);
@@ -76629,10 +76629,10 @@ function (response) {
 
   if (response.status === 500) {
     Object(element_ui__WEBPACK_IMPORTED_MODULE_1__["Message"])({
-      message: res.message || 'Error In Request',
+      message: res.message || 'Server Error',
       type: 'error',
       duration: 5 * 1000
-    }); // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+    });
 
     if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
       // to re-login

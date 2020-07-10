@@ -20,4 +20,5 @@ Route::group(['middleware' => 'auth:sanctum','namespace' => 'Api\V1'], function(
     });
 
     Route::post('/can','PermissionController@check');
+    Route::post('/get-all-permissions','PermissionController@getAllPermissions');
 });
