@@ -28,3 +28,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function register(data){
+    return request({
+        url: '/register',
+        method: 'post',
+        data
+    })
+}
