@@ -3,12 +3,12 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
+import { getToken } from './utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login','/register','/forgot-password','/reset-password','/verify-email'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -33,7 +33,14 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           await store.dispatch('user/getInfo')
-
+            const hasGetUserInfo = store.getters.verified
+            if(!hasGetUserInfo){
+                if (to.path === '/verify-email'){
+                    next()
+                }else{
+                    next({ path: '/verify-email' })
+                }
+            }
           next()
         } catch (error) {
           // remove token and go to login page to re-login

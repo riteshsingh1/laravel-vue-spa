@@ -15,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum','namespace' => 'Api\V1'], function(){
-    Route::get('/user', function(Request $request){
-        return response()->json(['data'=>$request->user()]);
-    });
 
-    Route::post('/can','PermissionController@check');
-    Route::post('/get-all-permissions','PermissionController@getAllPermissions');
+
+    Route::group(['middleware' => 'verifiedUser'], function (){
+        Route::get('/user', function(Request $request){
+            return response()->json(['data'=>$request->user()]);
+        });
+        Route::post('/can','PermissionController@check');
+        Route::post('/get-all-permissions','PermissionController@getAllPermissions');
+    });
 });

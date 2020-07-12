@@ -1,5 +1,8 @@
 import request from '@/utils/request'
 
+/**
+ * Get CSRF
+ */
 export function sanctum(){
     return request({
         url: '/sanctum/csrf-cookie',
@@ -7,6 +10,10 @@ export function sanctum(){
     })
 }
 
+/**
+ * Login User
+ * @param data
+ */
 export function login(data) {
   return request({
     url: '/login',
@@ -15,6 +22,10 @@ export function login(data) {
   })
 }
 
+/**
+ * Get User Info
+ * @param token
+ */
 export function getInfo(token) {
   return request({
     url: '/api/user',
@@ -22,6 +33,9 @@ export function getInfo(token) {
   })
 }
 
+/**
+ * Logout User
+ */
 export function logout() {
   return request({
     url: '/logout',
@@ -29,10 +43,24 @@ export function logout() {
   })
 }
 
-export function register(data){
+/**
+ * Register User
+ * @param data
+ */
+export function registerUser(data){
     return request({
         url: '/register',
         method: 'post',
         data
+    })
+}
+
+/**
+ * Resend Email Verification
+ */
+export function resendVerification(){
+    return request({
+        url:'email/resend',
+        method: 'post'
     })
 }

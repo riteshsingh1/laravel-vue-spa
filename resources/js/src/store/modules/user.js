@@ -1,4 +1,4 @@
-import {login, logout, getInfo, sanctum} from '../../api/user'
+import {login, logout, getInfo, sanctum, registerUser} from '../../api/user'
 import {getToken, setToken, removeToken} from '../../utils/auth'
 import {resetRouter} from '@/router'
 import {MessageBox, Message} from 'element-ui'
@@ -8,7 +8,9 @@ const getDefaultState = () => {
     return {
         token: getToken(),
         name: '',
-        avatar: ''
+        avatar: '',
+        email: '',
+        verified: ''
     }
 }
 
@@ -26,6 +28,12 @@ const mutations = {
     },
     SET_AVATAR: (state, avatar) => {
         state.avatar = avatar
+    },
+    SET_EMAIL: (state, email)=>{
+        state.email = email;
+    },
+    SET_VERIFIED: (state, verified)=>{
+        state.verified = verified;
     }
 }
 
@@ -34,9 +42,8 @@ const actions = {
     login({commit}, userInfo) {
         const {username, password} = userInfo
         return new Promise((resolve, reject) => {
-            sanctum().then(resposeData => {
+            sanctum().then(() => {
                 login({email: username.trim(), password: password}).then(response => {
-                    // const { data } = response
                     commit('SET_TOKEN', 1)
                     setToken('1')
                     resolve()
@@ -56,8 +63,15 @@ const actions = {
     // register
     register({commit}, data) {
         return new Promise((resolve, reject)=>{
-            register(data).then(response => {
-
+            registerUser(data).then(response => {
+                const { data } = response;
+                const { name,email,verified } = data;
+                commit("SET_EMAIL", email);
+                commit("SET_NAME", name);
+                commit("SET_VERIFIED", verified);
+                resolve(data);
+            }).catch(error => {
+                reject(error)
             })
         })
     },
@@ -70,10 +84,10 @@ const actions = {
                 if (!data) {
                     return reject('Verification failed, please Login again.')
                 }
-                //avtar to be later
-                const {name} = data
-
-                commit('SET_NAME', name)
+                const { name,email,verified } = data;
+                commit("SET_EMAIL", email);
+                commit("SET_NAME", name);
+                commit("SET_VERIFIED", verified);
                 resolve(data)
             }).catch(error => {
                 reject(error)

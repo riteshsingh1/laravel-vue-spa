@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','uuid'
     ];
 
     /**
@@ -50,5 +50,12 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
         return $permissions;
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['verified'] = $this->hasVerifiedEmail();
+        return $array;
     }
 }
