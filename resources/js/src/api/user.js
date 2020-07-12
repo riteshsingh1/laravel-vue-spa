@@ -64,3 +64,27 @@ export function resendVerification(){
         method: 'post'
     })
 }
+
+/**
+ * Request forgot password email
+ * @param data
+ */
+export function requestForgotPasswordEmail(data){
+    return request({
+        url: 'password/email',
+        method: 'post',
+        data
+    })
+}
+
+/**
+ * Request forgot password email
+ * @param data
+ */
+export function requestResetPassword(data){
+    return request({
+        url: 'password/reset',
+        method: 'post',
+        data
+    })
+}

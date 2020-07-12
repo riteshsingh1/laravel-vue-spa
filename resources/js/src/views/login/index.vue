@@ -23,9 +23,9 @@
             </el-form-item>
 
             <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"/>
-        </span>
+                <span class="svg-container">
+                  <svg-icon icon-class="password"/>
+                </span>
                 <el-input
                     :key="passwordType"
                     ref="password"
@@ -38,14 +38,17 @@
                     @keyup.enter.native="handleLogin"
                 />
                 <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
+                  <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+                </span>
             </el-form-item>
+
+            <el-link type="info" href="/#/forgot-password" style="float:right; margin-bottom: 10px; margin-right: 15px;">forgot?</el-link>
 
             <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
                        @click.native.prevent="handleLogin">Login
             </el-button>
-            <el-link type="warning" href="/#/register">Not Yet Registered?</el-link>
+            <el-link type="warning" href="/#/register">Not yet registered?</el-link>
+
         </el-form>
     </div>
 </template>

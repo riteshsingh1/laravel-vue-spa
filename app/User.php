@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ResetPasswordEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','uuid'
+        'name', 'email', 'password', 'uuid'
     ];
 
     /**
@@ -42,7 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @return array
      */
-    public function getAllPermissionsAttribute() {
+    public function getAllPermissionsAttribute()
+    {
         $permissions = [];
         foreach (Permission::all() as $permission) {
             if (Auth::user()->can($permission->name)) {
@@ -50,6 +52,15 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
         return $permissions;
+    }
+
+    /**
+     * Send a password reset email to the user
+     * @param $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordEmail($token));
     }
 
     public function toArray()

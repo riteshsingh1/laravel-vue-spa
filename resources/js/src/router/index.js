@@ -47,6 +47,11 @@ export const constantRoutes = [
         hidden: true
     },
     {
+        path: '/email-verification',
+        component: () => import('@/views/auth/VerifyEmailMessage'),
+        hidden: true
+    },
+    {
         path: '/forgot-password',
         component: () => import('@/views/auth/ForgotPassword'),
         hidden: true

@@ -1,13 +1,249 @@
 <template>
+    <div class="login-container">
+        <el-form ref="resetPassword" :model="resetPassword" :rules="resetPasswordRules" class="login-form" auto-complete="on"
+                 label-position="left">
 
+            <div class="title-container">
+                <h3 class="title">Reset Password</h3>
+            </div>
+
+            <el-form-item prop="email">
+                <span class="svg-container">
+                  <svg-icon icon-class="email"/>
+                </span>
+                <el-input
+                    ref="email"
+                    v-model="resetPassword.email"
+                    placeholder="Enter Email Address"
+                    name="email"
+                    type="email"
+                    tabindex="1"
+                    auto-complete="on"
+                />
+            </el-form-item>
+
+            <el-form-item prop="password">
+                <span class="svg-container">
+                  <svg-icon icon-class="user"/>
+                </span>
+                <el-input
+                    ref="password"
+                    v-model="resetPassword.password"
+                    placeholder="Enter New Password"
+                    name="password"
+                    type="password"
+                    tabindex="2"
+                    auto-complete="off"
+                />
+            </el-form-item>
+            <el-form-item prop="password_confirmation">
+                <span class="svg-container">
+                  <svg-icon icon-class="user"/>
+                </span>
+                <el-input
+                    ref="password"
+                    v-model="resetPassword.password_confirmation"
+                    placeholder="Password Confirmation"
+                    name="password"
+                    type="password"
+                    tabindex="3"
+                    auto-complete="off"
+                />
+            </el-form-item>
+
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
+                       @click.native.prevent="handleResetPassword">Reset Password
+            </el-button>
+            <el-link type="warning" href="/#/login">Back To Login</el-link>
+        </el-form>
+    </div>
 </template>
 
 <script>
+    import {confirmPasswordMatch, validEmail} from '../../utils/validate'
+    import {requestResetPassword} from "../../api/user";
+    import {  Message } from 'element-ui'
+
     export default {
-        name: "ResetPassword"
+        name: 'ResetPassword',
+        data() {
+            const validateEmailAddress = (rule, value, callback) => {
+                if (!validEmail(value)) {
+                    callback(new Error('Please enter the correct email address'))
+                } else {
+                    callback()
+                }
+            }
+            const validatePassword = (rule, value, callback) => {
+                if (value.length < 8) {
+                    callback(new Error('The password can not be less than 8 digits'))
+                } else {
+                    callback()
+                }
+            }
+            const validatePasswordConfirmation = (rule, value, callback) =>{
+                if (!confirmPasswordMatch(value, this.resetPassword.password)) {
+                    callback(new Error('Passwords does not match'));
+                } else {
+                    callback()
+                }
+            }
+            return {
+                resetPassword: {
+                    email: '',
+                    token: '',
+                    password: '',
+                    password_confirmation: ''
+                },
+                resetPasswordRules: {
+                    email: [{required: true, trigger: 'blur', validator: validateEmailAddress}],
+                    password: [{required: true, trigger: 'blur', validator: validatePassword}],
+                    password_confirmation: [{required: true, trigger: 'blur', validator: validatePasswordConfirmation}],
+                },
+                loading: false,
+                redirect: undefined
+            }
+        },
+        watch: {
+            $route: {
+                handler: function (route) {
+                    this.redirect = route.query && route.query.redirect
+                },
+                immediate: true
+            }
+        },
+        mounted() {
+            this.resetPassword.token = this.$route.query.token;
+        },
+        methods: {
+            handleResetPassword() {
+                this.$refs.resetPassword.validate(valid => {
+                    if (valid) {
+                        this.loading = true
+                        requestResetPassword(this.resetPassword).then(response => {
+                            this.loading = false;
+                            Message.success('Password Reset Successfully. Proceed To Login.');
+                            this.$router.push('/login');
+                        }).catch(error => {
+                            Message.error(error.response.data.errors.email[0]);
+                            this.loading =false;
+                        });
+                    } else {
+                        console.log('error submit!!')
+                        return false
+                    }
+                })
+            }
+        }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
+    $bg: #283443;
+    $light_gray: #fff;
+    $cursor: #fff;
+
+    @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+        .login-container .el-input input {
+            color: $cursor;
+        }
+    }
+
+    /* reset element-ui css */
+    .login-container {
+        .el-input {
+            display: inline-block;
+            height: 47px;
+            width: 85%;
+
+            input {
+                background: transparent;
+                border: 0px;
+                -webkit-appearance: none;
+                border-radius: 0px;
+                padding: 12px 5px 12px 15px;
+                color: $light_gray;
+                height: 47px;
+                caret-color: $cursor;
+
+                &:-webkit-autofill {
+                    box-shadow: 0 0 0px 1000px $bg inset !important;
+                    -webkit-text-fill-color: $cursor !important;
+                }
+            }
+        }
+
+        .el-form-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            color: #454545;
+        }
+    }
+</style>
+
+<style lang="scss" scoped>
+    $bg: #2d3a4b;
+    $dark_gray: #889aa4;
+    $light_gray: #eee;
+
+    .login-container {
+        min-height: 100%;
+        width: 100%;
+        background-color: $bg;
+        overflow: hidden;
+
+        .login-form {
+            position: relative;
+            width: 520px;
+            max-width: 100%;
+            padding: 160px 35px 0;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .tips {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 10px;
+
+            span {
+                &:first-of-type {
+                    margin-right: 16px;
+                }
+            }
+        }
+
+        .svg-container {
+            padding: 6px 5px 6px 15px;
+            color: $dark_gray;
+            vertical-align: middle;
+            width: 30px;
+            display: inline-block;
+        }
+
+        .title-container {
+            position: relative;
+
+            .title {
+                font-size: 26px;
+                color: $light_gray;
+                margin: 0px auto 40px auto;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+
+        .show-pwd {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+            font-size: 16px;
+            color: $dark_gray;
+            cursor: pointer;
+            user-select: none;
+        }
+    }
 </style>

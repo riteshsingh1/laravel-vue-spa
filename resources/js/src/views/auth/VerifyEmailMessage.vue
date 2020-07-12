@@ -1,31 +1,15 @@
 <template>
     <div class="login-container">
-        <el-form ref="forgotPassword" :model="forgotPassword" :rules="forgotPasswordRules" class="login-form" auto-complete="on"
+        <el-form ref="forgotPassword" class="login-form" auto-complete="on"
                  label-position="left">
 
             <div class="title-container">
-                <h3 class="title">Forgot Password</h3>
+                <h3 class="title">Email Verified Successfully. Please proceed to Login.</h3>
             </div>
 
-            <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
-                <el-input
-                    ref="email"
-                    v-model="forgotPassword.email"
-                    placeholder="Enter Email Address"
-                    name="email"
-                    type="email"
-                    tabindex="1"
-                    auto-complete="on"
-                />
-            </el-form-item>
-
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                       @click.native.prevent="handleForgotPassword">Send Reset Password Link
+            <el-button type="primary" style="width:100%;margin-bottom:30px;"
+                       @click.native.prevent="handleLogin">Login
             </el-button>
-            <el-link type="warning" href="/#/login">Back To Login</el-link>
         </el-form>
     </div>
 </template>
@@ -36,22 +20,9 @@
     import {  Message } from 'element-ui'
 
     export default {
-        name: 'ForgotPassword',
+        name: 'VerifyEmailMessage',
         data() {
-            const validateUsername = (rule, value, callback) => {
-                if (!validEmail(value)) {
-                    callback(new Error('Please enter the Email Address'))
-                } else {
-                    callback()
-                }
-            }
             return {
-                forgotPassword: {
-                    email: '',
-                },
-                forgotPasswordRules: {
-                    email: [{required: true, trigger: 'blur', validator: validateUsername}],
-                },
                 loading: false,
                 redirect: undefined
             }
@@ -65,22 +36,8 @@
             }
         },
         methods: {
-            handleForgotPassword() {
-                this.$refs.forgotPassword.validate(valid => {
-                    if (valid) {
-                        this.loading = true
-                        requestForgotPasswordEmail(this.forgotPassword).then(response => {
-                            this.loading = false;
-                            Message.success('Please Check Your Email For Reset Link');
-                        }).catch(error => {
-                            Message.error(error.response.data.errors.email[0]);
-                            this.loading =false;
-                        });
-                    } else {
-                        console.log('error submit!!')
-                        return false
-                    }
-                })
+            handleLogin() {
+                this.$router.push('/login');
             }
         }
     }
