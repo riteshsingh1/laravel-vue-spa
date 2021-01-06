@@ -42,7 +42,7 @@
         "vue-template-compiler": "2.6.10"
     },
     "dependencies": {
-        "axios": "^0.19",
+        "axios": "^0.21",
         "core-js": "3.6.5",
         "element-ui": "2.13.2",
         "js-cookie": "2.2.0",
